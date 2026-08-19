@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% set pending_count = cases|selectattr("status", "equalto", "pending_review")|list|length %}
+{% set reviewed_count = cases|selectattr("status", "equalto", "reviewed")|list|length %}
+
+<div class="stat-row">
+    <div class="stat-card">
+        <div class="stat-icon">🗂️</div>
+        <div class="stat-body">
+            <h3>{{ cases|length }}</h3>
+            <p>Total Reports</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">⏳</div>
+        <div class="stat-body">
+            <h3>{{ pending_count }}</h3>
+            <p>Pending Review</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <div class="stat-body">
+            <h3>{{ reviewed_count }}</h3>
+            <p>Reviewed</p>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>New Skin Analysis</h2>
+    <form action="{{ url_for('predict') }}" method="POST" enctype="multipart/form-data">
+
+        <div class="form-section">
+            <h3>About You</h3>
+            <div class="form-grid-2">
+                <div>
+                    <label for="patient-age">Age</label>
+                    <input type="number" id="patient-age" name="age" min="1" max="120" required>
+                </div>
+                <div>
+                    <label for="patient-gender">Gender</label>
+                    <select id="patient-gender" name="gender">
+                        <option>Male</option><option>Female</option><option>Other</option>
+                    </select>
+                </div>
+                <div style="grid-column: span 2;">
+                    <label for="patient-city">City / Location (for Google Maps dermatologist referral)</label>
+                    <input type="text" id="patient-city" name="city" placeholder="e.g. New York, London, Mumbai, Delhi" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>About the Lesion</h3>
+            <div class="form-grid-2">
+                <div>
+                    <label for="patient-lesion-site">Lesion Site</label>
+                    <input type="text" id="patient-lesion-site" name="lesion_site" placeholder="e.g. Face, Arm">
+                </div>
+                <div>
+                    <label for="patient-duration">Duration</label>
+                    <input type="text" id="patient-duration" name="duration" placeholder="e.g. 30 days">
+                </div>
+                <div>
+                    <label for="patient-pain">Pain</label>
+                    <select id="patient-pain" name="pain"><option>No</option><option>Yes</option></select>
+                </div>
+                <div>
+                    <label for="patient-itching">Itching</label>
+                    <select id="patient-itching" name="itching"><option>No</option><option>Yes</option></select>
+                </div>
+                <div>
+                    <label for="patient-bleeding">Bleeding</label>
+                    <select id="patient-bleeding" name="bleeding"><option>No</option><option>Yes</option></select>
+                </div>
+                <div>
+                    <label for="patient-history">Previous History</label>
+                    <input type="text" id="patient-history" name="history">
+                </div>
+            </div>
+            <label for="patient-image">Upload Skin Image</label>
+            <input type="file" id="patient-image" name="image" accept=".jpg,.jpeg,.png" required>
+        </div>
+
+        <button type="submit">Analyze</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3>Your Previous Reports</h3>
+    <div class="case-list">
+        {% for case in cases %}
+        <a href="{{ url_for('view_result', case_id=case.id) }}" style="text-decoration:none; color:inherit;">
+            <div class="case-card">
+                <div class="case-avatar">📋</div>
+                <div class="case-info">
+                    <div class="case-name">{{ case.predicted_class }} — {{ case.confidence }}%</div>
+                    <div class="case-pred">Status: {{ case.status|capitalize }}</div>
+                </div>
+                <span class="badge badge-{{ case.risk_level }}">{{ case.risk_level }}</span>
+                <div class="case-date">{{ case.created_at.strftime("%d %b %Y") }}</div>
+            </div>
+        </a>
+        {% else %}
+        <div class="empty-state">
+            <span class="empty-icon">🗂️</span>
+            No reports yet — submit your first analysis above.
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

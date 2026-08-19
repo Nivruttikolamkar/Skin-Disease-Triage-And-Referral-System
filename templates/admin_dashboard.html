@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <h2>Admin Dashboard</h2>
+
+    <div class="stat-row">
+        <div class="stat-card">
+            <div class="stat-icon">🧑</div>
+            <div class="stat-body"><h3>{{ total_patients }}</h3><p>Patients</p></div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">👨‍⚕️</div>
+            <div class="stat-body"><h3>{{ total_doctors }}</h3><p>Doctors</p></div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🗂️</div>
+            <div class="stat-body"><h3>{{ total_cases }}</h3><p>Total Cases</p></div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">⏳</div>
+            <div class="stat-body"><h3>{{ pending_cases }}</h3><p>Pending Review</p></div>
+        </div>
+    </div>
+
+    <a class="btn" href="{{ url_for('create_doctor') }}">+ Add Doctor</a>
+    <a class="btn btn-muted" href="{{ url_for('admin_users') }}">Manage Users</a>
+    <a class="btn btn-muted" href="{{ url_for('admin_cases') }}">All Cases</a>
+</div>
+
+<div class="card">
+    <h3>Recent Cases</h3>
+    <table>
+        <tr>
+            <th scope="col">Patient</th>
+            <th scope="col">Prediction</th>
+            <th scope="col">Risk</th>
+            <th scope="col">Status</th>
+            <th scope="col">Date</th>
+        </tr>
+        {% for case in recent_cases %}
+        <tr>
+            <td>{{ case.patient.name }}</td>
+            <td>{{ case.predicted_class }} ({{ case.confidence }}%)</td>
+            <td><span class="badge badge-{{ case.risk_level }}">{{ case.risk_level }}</span></td>
+            <td>{{ case.status|capitalize }}</td>
+            <td>{{ case.created_at.strftime("%d %b %Y") }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5"><div class="empty-state"><span class="empty-icon">🗂️</span>No cases yet.</div></td></tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

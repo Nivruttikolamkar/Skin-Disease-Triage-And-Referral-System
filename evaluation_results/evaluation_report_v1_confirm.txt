@@ -1,0 +1,25 @@
+Run tag: v1_confirm
+Overall Accuracy: 76.37%
+
+                          precision    recall  f1-score   support
+
+                    Acne      0.711     0.900     0.794        30
+         Alopecia Areata      1.000     0.929     0.963        14
+     Candidal Intertrigo      0.571     0.235     0.333        17
+     Eczema & Dermatitis      0.600     0.625     0.612        48
+                 Melasma      0.769     0.769     0.769        13
+               Psoriasis      0.700     0.560     0.622        25
+                 Scabies      0.720     0.621     0.667        29
+Tinea (Fungal Infection)      0.794     0.842     0.817       183
+                Vitiligo      0.814     0.806     0.810        98
+
+                accuracy                          0.764       457
+               macro avg      0.742     0.698     0.710       457
+            weighted avg      0.760     0.764     0.757       457
+
+
+Confidence-Based Referral Breakdown:
+Threshold 0.5 | Coverage:  94.1% (430/457) | Accuracy within coverage: 79.30%
+Threshold 0.6 | Coverage:  87.7% (401/457) | Accuracy within coverage: 81.05%
+Threshold 0.7 | Coverage:  80.5% (368/457) | Accuracy within coverage: 82.07%
+Threshold 0.8 | Coverage:  72.9% (333/457) | Accuracy within coverage: 84.98%

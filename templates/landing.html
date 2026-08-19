@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DermAI Triage - Intelligent Dermatology Screening & Referral System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="landing-page">
+
+    <!-- Top Announcement Bar -->
+    <div class="announcement-bar">
+        <span class="announcement-badge">Clinical Decision Support</span>
+        <span>AI-powered skin disease risk stratification & explainable dermatologist referral platform.</span>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="landing-nav">
+        <div class="nav-brand">
+            <span class="brand-mark">✚</span>
+            <div class="brand-titles">
+                <strong class="brand-name">DermAI Triage</strong>
+                <span class="brand-tagline">Skin Health Referral System</span>
+            </div>
+        </div>
+        <nav class="nav-links">
+            <a href="#overview">Overview</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#triage-matrix">Triage Matrix</a>
+            <a href="#disease-scope">Diagnostic Scope</a>
+            <a href="#faq">FAQ</a>
+        </nav>
+        <div class="nav-actions">
+            <a href="{{ url_for('login') }}" class="btn btn-secondary nav-login-btn">
+                <span class="btn-icon">🔐</span> Doctor / User Login
+            </a>
+            <a href="{{ url_for('register') }}" class="btn btn-primary nav-cta-btn">
+                <span class="btn-icon">🩺</span> Start Patient Triage
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="overview" class="landing-hero-section">
+        <div class="hero-container">
+            <div class="hero-text-content">
+                <div class="badge-pill hero-badge">
+                    <span class="pulse-dot"></span>
+                    <span>Intelligent Medical Decision Support Platform</span>
+                </div>
+                <h1 class="hero-headline">
+                    Rapid AI-Powered <span class="highlight-text">Skin Lesion Triage</span> & Specialist Referral
+                </h1>
+                <p class="hero-description">
+                    Combining deep learning classification (EfficientNet architecture) with visual Grad-CAM explainability and clinical metadata to stratify dermatological urgency, streamline specialist referral queues, and accelerate patient care.
+                </p>
+
+                <div class="hero-cta-group">
+                    <a href="{{ url_for('register') }}" class="btn btn-primary btn-hero">
+                        <span class="btn-icon">📋</span> Submit Lesion for Triage
+                    </a>
+                    <a href="{{ url_for('login') }}" class="btn btn-outline btn-hero">
+                        <span class="btn-icon">👨‍⚕️</span> Dermatologist Portal
+                    </a>
+                </div>
+
+                <!-- Key Metrics Pills -->
+                <div class="hero-metrics-bar">
+                    <div class="metric-item">
+                        <span class="metric-value">9+</span>
+                        <span class="metric-label">Disease Categories</span>
+                    </div>
+                    <div class="metric-divider"></div>
+                    <div class="metric-item">
+                        <span class="metric-value">Grad-CAM</span>
+                        <span class="metric-label">Visual Heatmaps</span>
+                    </div>
+                    <div class="metric-divider"></div>
+                    <div class="metric-item">
+                        <span class="metric-value">Tri-Color</span>
+                        <span class="metric-label">Risk Stratification</span>
+                    </div>
+                    <div class="metric-divider"></div>
+                    <div class="metric-item">
+                        <span class="metric-value">Instant</span>
+                        <span class="metric-label">PDF Medical Reports</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Interactive Preview Card -->
+            <div class="hero-visual-card">
+                <div class="preview-window">
+                    <div class="preview-header">
+                        <div class="window-controls">
+                            <span class="dot dot-red"></span>
+                            <span class="dot dot-yellow"></span>
+                            <span class="dot dot-green"></span>
+                        </div>
+                        <span class="preview-title">Live Triage Engine Preview</span>
+                    </div>
+                    <div class="preview-body">
+                        <div class="preview-case-header">
+                            <div class="case-id-tag">Case #TR-84920</div>
+                            <div class="case-status-badge">Pending Doctor Review</div>
+                        </div>
+
+                        <!-- Image Comparison Simulation -->
+                        <div class="preview-media-grid">
+                            <div class="media-box">
+                                <span class="box-label">Uploaded Image</span>
+                                <div class="img-placeholder lesion-img">
+                                    <div class="lesion-sim-patch"></div>
+                                </div>
+                            </div>
+                            <div class="media-box">
+                                <span class="box-label">Grad-CAM Heatmap</span>
+                                <div class="img-placeholder gradcam-img">
+                                    <div class="heatmap-sim-overlay"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Triage Result Preview -->
+                        <div class="preview-analysis-card">
+                            <div class="analysis-row">
+                                <span class="analysis-label">Predicted Condition</span>
+                                <span class="analysis-val-bold">Psoriasis / Inflammatory Lesion</span>
+                            </div>
+                            <div class="analysis-row">
+                                <span class="analysis-label">Model Confidence</span>
+                                <div class="confidence-bar-wrap">
+                                    <div class="confidence-fill" style="width: 94.6%;"></div>
+                                    <span class="confidence-text">94.6%</span>
+                                </div>
+                            </div>
+                            <div class="analysis-row triage-result-row">
+                                <span class="analysis-label">Assigned Triage Priority</span>
+                                <span class="badge badge-YELLOW">MODERATE RISK / ROUTINE REFERRAL</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Capabilities Section -->
+    <section class="capabilities-section">
+        <div class="section-header text-center">
+            <span class="section-tag">Platform Features</span>
+            <h2>Designed for Patients & Healthcare Professionals</h2>
+            <p>An end-to-end intelligent triage solution built to reduce clinical backlog and improve patient outcomes.</p>
+        </div>
+
+        <div class="capabilities-grid">
+            <div class="capability-card">
+                <div class="card-icon-wrap icon-blue">
+                    <span>🧠</span>
+                </div>
+                <h3>Deep Learning Classification</h3>
+                <p>Powered by fine-tuned EfficientNet deep convolutional networks trained on curated dermatological image datasets to detect skin conditions rapidly.</p>
+            </div>
+
+            <div class="capability-card">
+                <div class="card-icon-wrap icon-green">
+                    <span>🔥</span>
+                </div>
+                <h3>Grad-CAM Visual Heatmaps</h3>
+                <p>Generates Gradient-weighted Class Activation Maps (Grad-CAM) to visualize precisely which lesion regions guided the neural network's decision.</p>
+            </div>
+
+            <div class="capability-card">
+                <div class="card-icon-wrap icon-red">
+                    <span>🚦</span>
+                </div>
+                <h3>Tri-Color Urgency Matrix</h3>
+                <p>Automated clinical decision logic stratifying cases into Red (Urgent), Yellow (Moderate), and Green (Low Risk) priority tiers for dermatologist queues.</p>
+            </div>
+
+            <div class="capability-card">
+                <div class="card-icon-wrap icon-purple">
+                    <span>🛡️</span>
+                </div>
+                <h3>Secondary Screening Engine</h3>
+                <p>Integrated fallback screening via Roboflow API to detect potential high-risk malignant patterns when primary local model confidence is borderline.</p>
+            </div>
+
+            <div class="capability-card">
+                <div class="card-icon-wrap icon-amber">
+                    <span>📄</span>
+                </div>
+                <h3>Automated PDF Reports</h3>
+                <p>Instantly compiles clinical history, risk score, diagnostic rationale, and Grad-CAM visuals into standard medical PDF summary reports.</p>
+            </div>
+
+            <div class="capability-card">
+                <div class="card-icon-wrap icon-teal">
+                    <span>🩺</span>
+                </div>
+                <h3>Doctor Review Workflow</h3>
+                <p>Dedicated clinical dashboard allowing board-certified dermatologists to review high-risk cases, annotate findings, and approve referrals.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Workflow Section -->
+    <section id="how-it-works" class="workflow-section">
+        <div class="section-header text-center">
+            <span class="section-tag">Clinical Workflow</span>
+            <h2>Step-by-Step Triage & Referral Process</h2>
+            <p>From image capture to doctor verification in five seamless steps.</p>
+        </div>
+
+        <div class="workflow-timeline">
+            <div class="workflow-step">
+                <div class="step-number">01</div>
+                <div class="step-content">
+                    <h4>Lesion Capture & Symptoms</h4>
+                    <p>Patient uploads a clear close-up image of the skin anomaly and completes a brief symptom history form (duration, pain, itching, site, bleeding history).</p>
+                </div>
+            </div>
+
+            <div class="workflow-step">
+                <div class="step-number">02</div>
+                <div class="step-content">
+                    <h4>AI Deep Learning Analysis</h4>
+                    <p>Our neural network extracts pathological feature patterns, calculates class probability distributions, and evaluates image clarity.</p>
+                </div>
+            </div>
+
+            <div class="workflow-step">
+                <div class="step-number">03</div>
+                <div class="step-content">
+                    <h4>Grad-CAM Heatmap Generation</h4>
+                    <p>The system generates visual heatmaps overlaying the original photo, highlighting exact lesion boundaries and textural cues for visual explainability.</p>
+                </div>
+            </div>
+
+            <div class="workflow-step">
+                <div class="step-number">04</div>
+                <div class="step-content">
+                    <h4>Risk Stratification & Triage</h4>
+                    <p>Triage algorithms evaluate severity rankings and confidence margins to assign Red, Yellow, or Green urgency flags and generate a structured PDF report.</p>
+                </div>
+            </div>
+
+            <div class="workflow-step">
+                <div class="step-number">05</div>
+                <div class="step-content">
+                    <h4>Specialist Review & Referral</h4>
+                    <p>Dermatologists access prioritized case queues, review visual heatmaps and patient symptoms, add clinical notes, and approve official referrals.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tri-Color Triage Matrix Section -->
+    <section id="triage-matrix" class="matrix-section">
+        <div class="section-header text-center">
+            <span class="section-tag">Risk Management</span>
+            <h2>Tri-Color Urgency Triage Matrix</h2>
+            <p>Ensuring urgent skin conditions receive immediate clinical attention while optimizing healthcare resources.</p>
+        </div>
+
+        <div class="matrix-grid">
+            <!-- RED CARD -->
+            <div class="matrix-card card-red">
+                <div class="matrix-card-header">
+                    <span class="badge badge-RED">RED - HIGH RISK</span>
+                    <span class="urgency-time">Target: 24 - 48 Hours</span>
+                </div>
+                <h3>Urgent Referral Required</h3>
+                <p>Assigned to severe, contagious, or potentially malignant skin conditions (e.g., Scabies, flagged suspicious lesions, low-confidence high-severity patterns).</p>
+                <ul class="matrix-checklist">
+                    <li>✓ High priority placement in dermatologist queue</li>
+                    <li>✓ Immediate patient recommendation for in-clinic review</li>
+                    <li>✓ Full Grad-CAM visual diagnostic breakdown</li>
+                </ul>
+            </div>
+
+            <!-- YELLOW CARD -->
+            <div class="matrix-card card-yellow">
+                <div class="matrix-card-header">
+                    <span class="badge badge-YELLOW">YELLOW - MODERATE RISK</span>
+                    <span class="urgency-time">Target: Routine Consultation</span>
+                </div>
+                <h3>Routine Specialist Referral</h3>
+                <p>Assigned to chronic, inflammatory, or active skin disorders (e.g., Psoriasis, Candidal Intertrigo, Eczema & Dermatitis) requiring prescription management.</p>
+                <ul class="matrix-checklist">
+                    <li>✓ Standard clinical referral workflow</li>
+                    <li>✓ Recommended outpatient consultation</li>
+                    <li>✓ Symptom history & risk rationale summary</li>
+                </ul>
+            </div>
+
+            <!-- GREEN CARD -->
+            <div class="matrix-card card-green">
+                <div class="matrix-card-header">
+                    <span class="badge badge-GREEN">GREEN - LOW RISK</span>
+                    <span class="urgency-time">Target: Self-Care / Follow-up</span>
+                </div>
+                <h3>Low Risk & Primary Monitoring</h3>
+                <p>Assigned to benign or mild dermatological conditions (e.g., Acne, Melasma, Vitiligo, Alopecia Areata, mild Tinea) with low risk of escalation.</p>
+                <ul class="matrix-checklist">
+                    <li>✓ Guidance on self-monitoring & OTC management</li>
+                    <li>✓ Advice to seek re-triage if symptoms persist</li>
+                    <li>✓ Downloadable reference report</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Disease Scope Badges Section -->
+    <section id="disease-scope" class="scope-section">
+        <div class="section-header text-center">
+            <span class="section-tag">AI Coverage</span>
+            <h2>Supported Dermatological Conditions</h2>
+            <p>Our model is trained to evaluate and stratify a broad range of skin health conditions.</p>
+        </div>
+
+        <div class="disease-tags-grid">
+            <div class="disease-tag-card">
+                <span class="disease-icon">🔬</span>
+                <span class="disease-title">Scabies</span>
+                <span class="disease-severity high-sev">High Severity</span>
+            </div>
+            <div class="disease-tag-card">
+                <span class="disease-icon">🧴</span>
+                <span class="disease-title">Candidal Intertrigo</span>
+                <span class="disease-severity med-sev">Moderate-High</span>
+            </div>
+            <div class="disease-tag-card">
+                <span class="disease-icon">🩹</span>
+                <span class="disease-title">Psoriasis</span>
+                <span class="disease-severity med-sev">Moderate-High</span>
+            </div>
+            <div class="disease-tag-card">
+                <span class="disease-icon">✨</span>
+                <span class="disease-title">Eczema & Dermatitis</span>
+                <span class="disease-severity med-sev">Moderate</span>
+            </div>
+            <div class="disease-tag-card">
+                <span class="disease-icon">🍄</span>
+                <span class="disease-title">Tinea (Fungal)</span>
+                <span class="disease-severity low-sev">Low-Moderate</span>
+            </div>
+            <div class="disease-tag-card">
+                <span class="disease-icon">👤</span>
+                <span class="disease-title">Vitiligo</span>
+                <span class="disease-severity low-sev">Low-Moderate</span>
+            </div>
+            <div class="disease-tag-card">
+                <span class="disease-icon">💈</span>
+                <span class="disease-title">Alopecia Areata</span>
+                <span class="disease-severity low-sev">Low-Moderate</span>
+            </div>
+            <div class="disease-tag-card">
+                <span class="disease-icon">☀️</span>
+                <span class="disease-title">Melasma</span>
+                <span class="disease-severity low-sev">Low Severity</span>
+            </div>
+            <div class="disease-tag-card">
+                <span class="disease-icon">🧼</span>
+                <span class="disease-title">Acne Vulgaris</span>
+                <span class="disease-severity low-sev">Low Severity</span>
+            </div>
+            <div class="disease-tag-card highlight-card">
+                <span class="disease-icon">🔍</span>
+                <span class="disease-title">Secondary Malignancy Screening</span>
+                <span class="disease-severity high-sev">Roboflow Integrated</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dual Role Access Portal Callout -->
+    <section class="roles-callout-section">
+        <div class="roles-container">
+            <div class="role-box patient-role-box">
+                <div class="role-badge">For Patients</div>
+                <h3>Get Preliminary Skin Analysis</h3>
+                <p>Upload photos of skin lesions, receive immediate risk stratification reports, and track your case review status online.</p>
+                <a href="{{ url_for('register') }}" class="btn btn-primary">Create Patient Account &rarr;</a>
+            </div>
+
+            <div class="role-box doctor-role-box">
+                <div class="role-badge doctor-badge">For Medical Professionals</div>
+                <h3>Access Doctor Case Queue</h3>
+                <p>Review high-risk triage cases, examine Grad-CAM visual heatmaps, enter clinical assessments, and manage patient referrals.</p>
+                <a href="{{ url_for('login') }}" class="btn btn-outline-dark">Doctor Portal Login &rarr;</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Medical Disclaimer Banner -->
+    <section class="disclaimer-section">
+        <div class="disclaimer-card">
+            <div class="disclaimer-icon">⚠️</div>
+            <div class="disclaimer-text">
+                <h4>Important Medical & Clinical Disclaimer</h4>
+                <p>
+                    <strong>DermAI Triage</strong> is an artificial intelligence-assisted decision support system designed solely for preliminary risk screening and clinical workflow prioritization. It is <em>not</em> a substitute for professional medical diagnosis, advice, or treatment. Always consult a qualified dermatologist or medical practitioner for formal clinical diagnosis and management of skin conditions.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Accordion Section -->
+    <section id="faq" class="faq-section">
+        <div class="section-header text-center">
+            <span class="section-tag">Got Questions?</span>
+            <h2>Frequently Asked Questions</h2>
+        </div>
+
+        <div class="faq-grid">
+            <div class="faq-item">
+                <h4>How does the AI classify skin lesions?</h4>
+                <p>The system utilizes deep convolutional neural networks (EfficientNet) trained on dermatological image datasets to analyze skin texture, border irregularity, and visual patterns.</p>
+            </div>
+
+            <div class="faq-item">
+                <h4>What is Grad-CAM explainability?</h4>
+                <p>Grad-CAM (Gradient-weighted Class Activation Mapping) produces visual heatmaps over the photo, highlighting the specific regions of interest that guided the AI's diagnostic reasoning.</p>
+            </div>
+
+            <div class="faq-item">
+                <h4>How are Red, Yellow, and Green risk levels determined?</h4>
+                <p>Risk tiers combine base disease severity ranks with model prediction confidence. Low model confidence automatically escalates risk levels to ensure potential anomalies receive expert review.</p>
+            </div>
+
+            <div class="faq-item">
+                <h4>Can dermatologists review my case?</h4>
+                <p>Yes. Submitted cases enter a dedicated clinical queue where registered dermatologists can review image heatmaps, clinical history, and attach official medical evaluations.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="landing-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="brand-mark">✚</span>
+                <strong>DermAI Triage System</strong>
+                <p>Intelligent Dermatology Triage & Referral Platform</p>
+            </div>
+            <div class="footer-meta">
+                <p>&copy; 2026 Skin Disease Triage Project. Final Year Engineering Capstone.</p>
+                <p class="footer-subtext">Designed for Clinical Decision Support & Dermatological Referral Efficiency.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

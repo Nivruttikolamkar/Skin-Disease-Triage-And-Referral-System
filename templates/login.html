@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="auth-shell">
+    <div class="auth-hero">
+        <span class="brand-mark" style="margin-bottom:20px;">✚</span>
+        <h1>Intelligent Dermatology Triage</h1>
+        <p>AI-assisted skin condition analysis with doctor review — get a fast, structured triage decision before your clinic visit.</p>
+    </div>
+
+    <div class="auth-form-side">
+        <div class="card auth-box" style="width:100%; max-width:380px;">
+            <h2>Login</h2>
+            <p class="text-muted text-small mt-neg8 mb-18">
+                Patients, doctors, and admins can all sign in below using their registered email and password.
+            </p>
+
+            <div class="role-select-row" id="role-select-row">
+                <div class="role-card active" data-role="patient">
+                    <span class="role-icon">🧑</span><small>Patient</small>
+                </div>
+                <div class="role-card" data-role="doctor">
+                    <span class="role-icon">👨‍⚕️</span><small>Doctor</small>
+                </div>
+                <div class="role-card" data-role="admin">
+                    <span class="role-icon">🛡️</span><small>Admin</small>
+                </div>
+            </div>
+
+            <form method="POST">
+                <label for="login-email">Email</label>
+                <input type="email" id="login-email" name="email" required>
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" name="password" required>
+                <button type="submit">Login</button>
+            </form>
+            <p class="mt-12 text-small">New here? <a href="{{ url_for('register') }}">Create a patient account</a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+document.querySelectorAll('#role-select-row .role-card').forEach(function(card) {
+    card.addEventListener('click', function() {
+        document.querySelectorAll('#role-select-row .role-card').forEach(function(c) { c.classList.remove('active'); });
+        card.classList.add('active');
+    });
+});
+</script>
+{% endblock %}

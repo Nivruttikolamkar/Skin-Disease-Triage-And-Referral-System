@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% set high_risk_pending = pending_cases|selectattr("risk_level", "equalto", "RED")|list %}
+
+<div class="stat-row">
+    <div class="stat-card">
+        <div class="stat-icon">⏳</div>
+        <div class="stat-body">
+            <h3>{{ pending_cases|length }}</h3>
+            <p>Pending Review</p>
+        </div>
+    </div>
+    <div class="stat-card stat-danger">
+        <div class="stat-icon">⚠️</div>
+        <div class="stat-body">
+            <h3>{{ high_risk_pending|length }}</h3>
+            <p>High Risk - Pending</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <div class="stat-body">
+            <h3>{{ reviewed_cases|length }}</h3>
+            <p>Reviewed</p>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Pending Review ({{ pending_cases|length }})</h2>
+
+    <div class="filter-tabs" id="filter-tabs">
+        <a href="#" class="filter-tab active" data-filter="ALL">All</a>
+        <a href="#" class="filter-tab" data-filter="RED">Red</a>
+        <a href="#" class="filter-tab" data-filter="YELLOW">Yellow</a>
+        <a href="#" class="filter-tab" data-filter="GREEN">Green</a>
+    </div>
+
+    <div class="case-list" id="pending-case-list">
+        {% for case in pending_cases %}
+        <div class="case-card" data-risk="{{ case.risk_level }}">
+            <div class="case-avatar">{{ case.patient.name[0]|upper }}</div>
+            <div class="case-info">
+                <div class="case-name">{{ case.patient.name }}</div>
+                <div class="case-pred">{{ case.predicted_class }} — {{ case.confidence }}% confidence</div>
+            </div>
+            <span class="badge badge-{{ case.risk_level }}">{{ case.risk_level }}</span>
+            <div class="case-date">{{ case.created_at.strftime("%d %b %Y") }}</div>
+            <a class="btn" href="{{ url_for('doctor_case_review', case_id=case.id) }}">Review</a>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <span class="empty-icon">🗂️</span>
+            No pending cases right now.
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="card">
+    <h3>Recently Reviewed</h3>
+    <div class="case-list">
+        {% for case in reviewed_cases %}
+        <div class="case-card">
+            <div class="case-avatar">{{ case.patient.name[0]|upper }}</div>
+            <div class="case-info">
+                <div class="case-name">{{ case.patient.name }}</div>
+                <div class="case-pred">{{ case.predicted_class }} — {{ case.confidence }}% confidence</div>
+            </div>
+            <span class="badge badge-{{ case.risk_level }}">{{ case.risk_level }}</span>
+            <div class="case-date">{{ case.reviewed_at.strftime("%d %b %Y") }}</div>
+            <a class="btn btn-muted" href="{{ url_for('doctor_case_review', case_id=case.id) }}">View</a>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <span class="empty-icon">✅</span>
+            No reviewed cases yet.
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+document.querySelectorAll('#filter-tabs .filter-tab').forEach(function(tab) {
+    tab.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelectorAll('#filter-tabs .filter-tab').forEach(function(t) { t.classList.remove('active'); });
+        tab.classList.add('active');
+        var filter = tab.getAttribute('data-filter');
+        document.querySelectorAll('#pending-case-list .case-card').forEach(function(card) {
+            if (filter === 'ALL' || card.getAttribute('data-risk') === filter) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

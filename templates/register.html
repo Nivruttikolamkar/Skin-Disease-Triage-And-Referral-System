@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="auth-shell">
+    <div class="auth-hero">
+        <span class="brand-mark" style="margin-bottom:20px;">✚</span>
+        <h1>Create Your Account</h1>
+        <p>Register as a patient to upload skin images and get an AI-assisted triage report, reviewed by a doctor.</p>
+    </div>
+    <div class="auth-form-side">
+        <div class="card auth-box" style="width:100%; max-width:380px;">
+            <h2>Create Patient Account</h2>
+            <form method="POST">
+                <label for="patient-name">Full Name</label>
+                <input type="text" id="patient-name" name="name" required>
+                <label for="patient-email">Email</label>
+                <input type="email" id="patient-email" name="email" required>
+                <label for="patient-password">Password</label>
+                <input type="password" id="patient-password" name="password" required>
+                <button type="submit">Register</button>
+            </form>
+            <p class="mt-12 text-small">Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

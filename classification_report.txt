@@ -1,0 +1,19 @@
+                        precision    recall  f1-score   support
+
+                  Acne       0.80      0.73      0.76        33
+       Alopecia Areata       0.77      0.83      0.80        12
+   Candidal Intertrigo       0.56      0.36      0.43        28
+    Contact Dermatitis       0.24      0.15      0.19        33
+                Eczema       0.38      0.35      0.36        26
+               Melasma       0.36      0.81      0.50        16
+             Psoriasis       0.41      0.67      0.51        33
+               Scabies       0.65      0.37      0.47        41
+Steroid Modified Tinea       0.09      0.14      0.11        14
+        Tinea Corporis       0.25      0.48      0.33        52
+          Tinea Cruris       0.63      0.52      0.57       110
+          Tinea Faciei       0.45      0.20      0.28        25
+              Vitiligo       0.82      0.66      0.73       111
+
+              accuracy                           0.51       534
+             macro avg       0.49      0.48      0.46       534
+          weighted avg       0.56      0.51      0.52       534

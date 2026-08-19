@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="report-hero risk-{{ case.risk_level }}">
+    <div class="report-hero-icon">
+        {% if case.risk_level == "RED" %}🔴{% elif case.risk_level == "YELLOW" %}🟡{% else %}🟢{% endif %}
+    </div>
+    <div>
+        <h2>{{ case.predicted_class }} <span style="font-weight:400; color:var(--muted); font-size:16px;">({{ case.confidence }}% confidence)</span></h2>
+        <p><span class="badge badge-{{ case.risk_level }}">{{ case.risk_level }}</span> — {{ case.urgency }} &nbsp;|&nbsp; Report ID: {{ case.report_id }}</p>
+    </div>
+</div>
+
+<div class="card">
+    <h3>Summary</h3>
+    <p>{{ case.rationale }}</p>
+
+    <div class="result-images">
+        <div>
+            <p><b>Original</b></p>
+            <img src="{{ url_for('static', filename=case.original_image) }}" alt="Original uploaded skin lesion image">
+        </div>
+        <div>
+            <p><b>Grad-CAM</b></p>
+            <img src="{{ url_for('static', filename=case.gradcam_image) }}" alt="Grad-CAM heatmap highlighting the model's area of focus">
+        </div>
+    </div>
+</div>
+
+{% if case.status == "reviewed" %}
+<div class="card review-box">
+    <h3>👨‍⚕️ Doctor's Review</h3>
+    <p>{{ case.doctor_notes }}</p>
+    <p class="text-muted text-small">Reviewed on {{ case.reviewed_at.strftime("%d %b %Y") }}</p>
+</div>
+{% else %}
+<div class="card">
+    <p class="status-pending">⏳ Awaiting doctor review</p>
+</div>
+{% endif %}
+
+<a class="btn" href="{{ url_for('download_report', filename=case.pdf_path) }}">📄 Download PDF Report</a>
+<a class="btn btn-muted" href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+
+{% if current_user.role == "admin" and workflow_result %}
+<div class="card" style="margin-top: 20px; border-left: 4px solid #17a2b8;">
+    <h3>Cloud Workflow Analysis (Roboflow) — Debug</h3>
+    <pre>{{ workflow_result | tojson(indent=2) }}</pre>
+</div>
+{% endif %}
+
+{% endblock %}
+

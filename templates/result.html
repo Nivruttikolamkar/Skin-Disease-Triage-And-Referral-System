@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <h2>Analysis Result</h2>
+    <p><b>Report ID:</b> {{ case.report_id }}</p>
+    <p><b>Predicted Condition:</b> {{ case.predicted_class }} ({{ case.confidence }}% confidence)</p>
+    <p><b>Risk Level:</b> <span class="badge badge-{{ case.risk_level }}">{{ case.risk_level }}</span> — {{ case.urgency }}</p>
+    <p>{{ case.rationale }}</p>
+
+    <div class="result-images">
+        <div>
+            <p><b>Original</b></p>
+            <img src="{{ url_for('static', filename=case.original_image) }}" alt="Original uploaded skin lesion image">
+        </div>
+        <div>
+            <p><b>Grad-CAM</b></p>
+            <img src="{{ url_for('static', filename=case.gradcam_image) }}" alt="Grad-CAM heatmap highlighting the model's area of focus">
+        </div>
+    </div>
+
+    {% if nearby_info %}
+    <div class="card" style="border-left: 4px solid var(--accent); background: #F8FAFC;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <h3 style="margin:0;">📍 Recommended Nearby Dermatologists ({{ nearby_info.city }})</h3>
+            <span class="badge" style="background:#E6F0F3; color:var(--primary);">Google Maps Integration</span>
+        </div>
+        <p style="color:var(--muted); font-size:13px; margin-top: -6px; margin-bottom: 16px;">
+            Based on your location (<strong>{{ nearby_info.city }}</strong>), here are top-rated dermatologist clinics for consultation and referral:
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-bottom: 16px;">
+            {% for clinic in nearby_info.clinics %}
+            <div style="background: white; border: 1.5px solid var(--border); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <strong style="font-size: 14px; color: var(--primary-dark); display: block; margin-bottom: 4px;">{{ clinic.name }}</strong>
+                    <span style="font-size: 12px; color: var(--muted); display: block; margin-bottom: 8px;">📍 {{ clinic.address }}</span>
+                    <span style="font-size: 12px; font-weight: 700; color: #D97706; background: #FFFBEB; padding: 2px 8px; border-radius: 12px; display: inline-block;">★ {{ clinic.rating }} ({{ clinic.user_ratings_total }}+ reviews)</span>
+                </div>
+                <a href="{{ clinic.maps_url }}" target="_blank" class="btn" style="padding: 6px 12px; font-size: 12px; margin-top: 12px; text-align: center; background: #0F766E;">
+                    🗺️ Open in Google Maps
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div style="text-align: right;">
+            <a href="{{ nearby_info.maps_search_url }}" target="_blank" style="font-size: 13px; font-weight: 700; color: var(--primary); text-decoration: none;">
+                🔍 View all dermatologists in {{ nearby_info.city }} on Google Maps &rarr;
+            </a>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if case.status == "reviewed" %}
+    <div class="card" style="background:#eafaf1; border-color:var(--green);">
+        <h3>👨‍⚕️ Doctor's Review</h3>
+        <p>{{ case.doctor_notes }}</p>
+        <p style="color:var(--muted); font-size:13px;">Reviewed on {{ case.reviewed_at.strftime("%d %b %Y") }}</p>
+    </div>
+    {% else %}
+    <p style="color:var(--muted);">⏳ Awaiting doctor review</p>
+    {% endif %}
+
+    <a class="btn" href="{{ url_for('download_report', filename=case.pdf_path) }}">📄 Download PDF Report</a>
+    <a class="btn" style="background:var(--muted);" href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+</div>
+{% endblock %}
+
+{% if workflow_result %}
+<div class="card" style="margin-top: 20px; border-left: 4px solid #17a2b8;">
+    <h3>Cloud Workflow Analysis (Roboflow)</h3>
+    <!-- Workflow outputs ko apne JSON structure ke mutabiq render karein -->
+    <pre>{{ workflow_result | tojson(indent=2) }}</pre>
+</div>
+{% endif %}

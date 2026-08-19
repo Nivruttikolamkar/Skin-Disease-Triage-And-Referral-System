@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="report-hero risk-{{ case.risk_level }}">
+    <div class="report-hero-icon">
+        {% if case.risk_level == "RED" %}🔴{% elif case.risk_level == "YELLOW" %}🟡{% else %}🟢{% endif %}
+    </div>
+    <div>
+        <h2>{{ case.predicted_class }} <span style="font-weight:400; color:var(--muted); font-size:16px;">({{ case.confidence }}% confidence)</span></h2>
+        <p><span class="badge badge-{{ case.risk_level }}">{{ case.risk_level }}</span> — {{ case.urgency }}</p>
+    </div>
+</div>
+
+<div class="card">
+    <h3>Patient Information</h3>
+    <div class="info-grid">
+        <div class="info-item"><label>Patient</label><span>{{ case.patient.name }}</span></div>
+        <div class="info-item"><label>Email</label><span>{{ case.patient.email }}</span></div>
+        <div class="info-item"><label>Age / Gender</label><span>{{ case.age }} / {{ case.gender }}</span></div>
+        <div class="info-item"><label>Lesion Site</label><span>{{ case.lesion_site }}</span></div>
+        <div class="info-item"><label>Duration</label><span>{{ case.duration }}</span></div>
+        <div class="info-item"><label>Previous History</label><span>{{ case.history or "—" }}</span></div>
+        <div class="info-item"><label>Pain</label><span>{{ case.pain }}</span></div>
+        <div class="info-item"><label>Itching</label><span>{{ case.itching }}</span></div>
+        <div class="info-item"><label>Bleeding</label><span>{{ case.bleeding }}</span></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>AI Analysis</h3>
+    <p>{{ case.rationale }}</p>
+    <div class="result-images">
+        <div>
+            <p><b>Original</b></p>
+            <img src="{{ url_for('static', filename=case.original_image) }}" alt="Original uploaded skin lesion image">
+        </div>
+        <div>
+            <p><b>Grad-CAM</b></p>
+            <img src="{{ url_for('static', filename=case.gradcam_image) }}" alt="Grad-CAM heatmap highlighting model's focus area">
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    {% if case.status == "reviewed" %}
+        <h3>✅ Review Submitted</h3>
+        <p class="text-muted text-small">Reviewed on {{ case.reviewed_at.strftime("%d %b %Y") }}</p>
+        <p style="background:var(--primary-light); padding:12px; border-radius:6px; margin-top:10px;">{{ case.doctor_notes }}</p>
+    {% else %}
+        <h3>Submit Your Review</h3>
+        <form method="POST">
+            <label>Doctor Notes / Review</label>
+            <textarea name="doctor_notes" rows="5" placeholder="Confirm or override the AI prediction, add your clinical observations..."></textarea>
+            <button type="submit">Submit Review</button>
+        </form>
+    {% endif %}
+</div>
+
+<a class="btn btn-muted" href="{{ url_for('doctor_dashboard') }}">← Back to Dashboard</a>
+{% endblock %}

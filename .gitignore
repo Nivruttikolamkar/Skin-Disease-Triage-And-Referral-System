@@ -1,0 +1,40 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments & IDE settings
+.env
+.venv
+venv/
+ENV/
+.vscode/
+.idea/
+
+# Large Datasets & Raw Images
+DATASET/
+dataset_by_disease/
+data/
+docs_data/
+METADATA/
+skin-lesion-classification-with-97.8%-accuracy-1/
+*.zip
+*.tar.gz
+*.csv
+
+# SQLite Database files & temporary runtime data
+database.db
+instance/
+static/uploads/*
+!static/uploads/.gitkeep
+static/reports/*
+!static/reports/.gitkeep
+
+# Large Training Artifacts & Model Checkpoints
+training_artifacts/*.keras
+training_artifacts/*.h5
+
+# OS & System files
+Thumbs.db
+Desktop.ini
+.DS_Store
